@@ -9,29 +9,23 @@
 	<form method="POST" action="/jogador" class="row">
 
 		@csrf
-		<input type="hidden" name="id">
+		<input type="hidden" name="id" value="{{ $jogador->id }}">
 
 		<div class="form-group col-6">
-			<label for="nome">Nome: </label>
-			<input type="text" name="nome" class="form-control">
+			<label for="nomeJogador">Nome: </label>
+			<input type="text" name="nomeJogador" class="form-control" value="{{ $jogador->nomeJogador }}">
 		</div>
 		<div class="form-group col-6">
 			<label for="dataNascimento">Data Nascimento: </label>
-			<input type="date" name="dataNascimento" class="form-control">
+			<input type="date" name="dataNascimento" class="form-control" value="{{ $jogador->dataNascimento }}">
 		</div>
 		<div class="form-group col-6">
-			<label for="clubeJogador">Clube: </label>
-			<select name="clubeJogador" class="form-control"></select>
+			<label for="clube">Clube: </label>
+			<select name="clube" class="form-control" value="{{ $jogador->clube }}"></select>
 		</div>
 		<div class="form-group col-6">
-			<label for="posicaoJogador">Posicao: </label>
-			<select name="posicaoJogador" class="form-control"></select>
-		</div>
-		<div class="form-group col-6">
-			<label for="colecao">Faz parte da coleção? </label>
-			<INPUT TYPE="checkbox" NAME="sim" VALUE="op1" class="form-control"> Sim
-			<INPUT TYPE="checkbox" NAME="nao" VALUE="op2" class="form-control"> Não
-
+			<label for="posicao">Posicao: </label>
+			<select name="posicao" class="form-control" value="{{ $jogador->posicao }}"></select>
 		</div>
 		<div class="form-group col-6">
 			<a href="/jogador" class="btn btn-primary bottom">
@@ -59,45 +53,44 @@
 			<col width="80">
 			<col width="30">
 			<col width="30">
-			<col width="30">
 		</colgroup>
 		<thead>
 			<tr>
-				<th>Escudo</th>
-				<th>Posição</th>
 				<th>Nome</th>
 				<th>Data Nascimento</th>
+				<th>Escudo</th>
+				<th>Posição</th>
 				<th>Editar</th>
 				<th>Excluir</th>
-				<th>Adquirir</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>
-					<a href="/jogador/id/edit" class="btn btn-warning">
-						<i class="fas fa-edit"></i>
-						Editar
-					</a>
-				</td>
-				<td>
-					<form method="POST" action="/jogador/id">
-						<input type="hidden" name="_method" value="DELETE">
+			@foreach ($jogadors as $jogador)
+				<tr>
+					<td>{{ $jogador->nomeJogador }}</td>
+					<td>{{ $jogador->dataNascimento }}</td>
+					<td>{{ $jogador->clube }}</td>
+					<td>{{ $jogador->posicao }}</td>
+					<td>
+						<a href="/jogador/{{ $jogador->id }}/edit" class="btn btn-warning">
+							<i class="fas fa-edit"></i>
+							Editar
+						</a>
+					</td>
+					<td>
+						<form method="POST" action="/jogador/{{ $jogador->id }}">
+							<input type="hidden" name="_method" value="DELETE">
 
-						@csrf
+							@csrf
 
-						<button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza?);'">
-							<i class="fas fa-trash"></i>
-							Excluir
-						</button>
-					</form>
-				</td>
-				<td></td>
-			</tr>
+							<button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza?');">
+								<i class="fas fa-trash"></i>
+								Excluir
+							</button>
+						</form>
+					</td>
+				</tr>
+			@endforeach
 		</tbody>
 	</table>
 

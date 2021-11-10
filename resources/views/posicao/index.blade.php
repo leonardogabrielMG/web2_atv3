@@ -9,11 +9,11 @@
 	<form method="POST" action="/posicao" class="row">
 
 		@csrf
-		<input type="hidden" name="id">
+		<input type="hidden" name="id" value="{{ $posicao->id }}">
 
 		<div class="form-group col-8">
-			<label for="posicao">Posição: </label>
-			<input type="text" name="posicao" class="form-control">
+			<label for="pPosicao">Posição: </label>
+			<input type="text" name="pPosicao" class="form-control" value="{{ $posicao->pPosicao }}">
 		</div>
 		<div class="form-group col-4">
 			<a href="/posicao" class="btn btn-primary bottom">
@@ -47,27 +47,29 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td></td>
-				<td>
-					<a href="/posicao/id/edit" class="btn btn-warning">
-						<i class="fas fa-edit"></i>
-						Editar
-					</a>
-				</td>
-				<td>
-					<form method="POST" action="/posicao/id">
-						<input type="hidden" name="_method" value="DELETE">
+			@foreach ($posicoes as $posicao)
+				<tr>
+					<td>{{ $posicao->pPosicao }}</td>
+					<td>
+						<a href="/posicao/{{ $posicao->id }}/edit" class="btn btn-warning">
+							<i class="fas fa-edit"></i>
+							Editar
+						</a>
+					</td>
+					<td>
+						<form method="POST" action="/posicao/{{ $posicao->id }}">
+							<input type="hidden" name="_method" value="DELETE">
 
-						@csrf
+							@csrf
 
-						<button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza?);'">
-							<i class="fas fa-trash"></i>
-							Excluir
-						</button>
-					</form>
-				</td>
-			</tr>
+							<button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza?');">
+								<i class="fas fa-trash"></i>
+								Excluir
+							</button>
+						</form>
+					</td>
+				</tr>
+			@endforeach
 		</tbody>
 	</table>
 

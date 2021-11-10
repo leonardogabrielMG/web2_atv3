@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PosicaoController;
+use App\Http\Controllers\ClubeController;
+use App\Http\Controllers\JogadorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::resources([
+    "jogador" => JogadorController::class
+]);
+
+Route::resources([
+    "posicao" => PosicaoController::class
+]);
+
+Route::resources([
+    "clube" => ClubeController::class
+]);
+
 Route::get('/', function () {
-    return view('jogador.index');
+    return redirect("/jogador");
 });
