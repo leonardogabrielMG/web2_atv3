@@ -13,7 +13,7 @@
 
 		<div class="form-group col-8">
 			<label for="pPosicao">Posição: </label>
-			<input type="text" name="pPosicao" class="form-control" value="{{ $posicao->pPosicao }}">
+			<input type="text" name="pPosicao" class="form-control" value="{{ $posicao->pPosicao }}" required>
 		</div>
 		<div class="form-group col-4">
 			<a href="/posicao" class="btn btn-primary bottom">

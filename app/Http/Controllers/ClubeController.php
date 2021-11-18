@@ -41,6 +41,11 @@ class ClubeController extends Controller
      */
     public function store(Request $request)
     {
+         if ($request->get("id") != ""){
+            $clube = Clube::Find($request->get("id"));
+        }else{
+            $clube = new Clube();
+        }
 
         $clube = new Clube();
 
@@ -74,7 +79,12 @@ class ClubeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $clube = Clube::Find($id);
+        $clubes = Clube::All();
+        return view("clube.index", [
+            "clube" => $clube,
+            "clubes" => $clubes
+        ]);
     }
 
     /**

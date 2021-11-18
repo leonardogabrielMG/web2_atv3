@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Jogador;
+use App\Models\Posicao;
+use App\Models\Clube;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class JogadorController extends Controller
 {
@@ -15,10 +20,18 @@ class JogadorController extends Controller
     public function index()
     {
         $jogador = new Jogador();
-        $jogadors = Jogador::All();
+        $jogadors = DB::table("jogador AS j")
+                    ->join("posicao AS p", "j.posicao", "=", "p.id")
+                    ->join("clube AS c", "j.clube", "=", "c.id")
+                    ->select("j.id", "j.nomeJogador", "j.dataNascimento", "p.pPosicao as posicao", "c.url AS clube")
+                    ->get();
+        $posicoes = Posicao::All();
+        $clubes = Clube::All();
         return view("jogador.index", [
             "jogador" => $jogador,
-            "jogadors" => $jogadors
+            "jogadors" => $jogadors,
+            "posicoes" => $posicoes,
+            "clubes" => $clubes
         ]);
     }
 
@@ -50,9 +63,15 @@ class JogadorController extends Controller
         $jogador->clube = $request->get("clube");
         $jogador->posicao = $request->get("posicao");
 
+        if ($jogador->dataNascimento >= Carbon::now()) {
+
+            $request->Session()->Flash("status", "datainvalida");
+            return redirect("/jogador");
+        }
+
         $jogador->save();
 
-        $request->session()->Flash("status", "salvo");
+        $request->Session()->Flash("status", "salvo");
         return redirect("/jogador");
     }
 
@@ -76,10 +95,18 @@ class JogadorController extends Controller
     public function edit($id)
     {
         $jogador = Jogador::Find($id);
-        $jogadors = Jogador::All();
+        $jogadors = DB::table("jogador AS j")
+                    ->join("posicao AS p", "j.posicao", "=", "p.id")
+                    ->join("clube AS c", "j.clube", "=", "c.id")
+                    ->select("j.id", "j.nomeJogador", "j.dataNascimento", "p.pPosicao as posicao", "c.url AS clube")
+                    ->get();
+        $posicoes = Posicao::All();
+        $clubes = Clube::All();
         return view("jogador.index", [
             "jogador" => $jogador,
-            "jogadors" => $jogadors
+            "jogadors" => $jogadors,
+            "posicoes" => $posicoes,
+            "clubes" => $clubes
         ]);
     }
 

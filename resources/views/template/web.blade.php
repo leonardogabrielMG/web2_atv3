@@ -40,6 +40,18 @@
 		</div>
 	@endif
 
+	@if (Session::get("status") == "datainvalida")
+		<div class="alert alert-danger" role="alert">
+			A data informada não é válida!
+		</div>
+	@endif
+
+	@if (Session::get("status") == "embranco")
+		<div class="alert alert-danger" role="alert">
+			Preencha TODOS os campos!
+		</div>
+	@endif
+
 	<div class="container">
 		@yield("formulario")
 		@yield("tabela")

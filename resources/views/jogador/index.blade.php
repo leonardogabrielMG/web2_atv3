@@ -13,19 +13,45 @@
 
 		<div class="form-group col-6">
 			<label for="nomeJogador">Nome: </label>
-			<input type="text" name="nomeJogador" class="form-control" value="{{ $jogador->nomeJogador }}">
+			<input type="text" name="nomeJogador" class="form-control" value="{{ $jogador->nomeJogador }}" required>
 		</div>
 		<div class="form-group col-6">
 			<label for="dataNascimento">Data Nascimento: </label>
-			<input type="date" name="dataNascimento" class="form-control" value="{{ $jogador->dataNascimento }}">
+			<input type="date" name="dataNascimento" class="form-control" value="{{ $jogador->dataNascimento }}" required>
 		</div>
 		<div class="form-group col-6">
 			<label for="clube">Clube: </label>
-			<select name="clube" class="form-control" value="{{ $jogador->clube }}"></select>
+			<select name="clube" class="form-control" value="{{ $jogador->clube }}" required>
+				<option></option>
+				@foreach ($clubes as $clube)
+					@if ($clube->id == $jogador->clube)
+						<option value="{{ $clube->id }}" selected="selected">
+							{{$clube->nomeClube}}
+						</option>
+					@else
+						<option value="{{ $clube->id }}">
+							{{$clube->nomeClube}}
+						</option>
+					@endif
+				@endforeach
+			</select>
 		</div>
 		<div class="form-group col-6">
 			<label for="posicao">Posicao: </label>
-			<select name="posicao" class="form-control" value="{{ $jogador->posicao }}"></select>
+			<select name="posicao" class="form-control" value="{{ $jogador->posicao }}" required>
+				<option></option>
+				@foreach ($posicoes as $posicao)
+					@if ($posicao->id == $jogador->posicao)
+							<option value="{{ $posicao->id }}" selected="selected">
+								{{ $posicao->pPosicao }}
+							</option>
+						@else
+							<option value="{{ $posicao->id }}">
+								{{ $posicao->pPosicao }}
+							</option>
+						@endif
+				@endforeach
+			</select>
 		</div>
 		<div class="form-group col-6">
 			<a href="/jogador" class="btn btn-primary bottom">
@@ -68,8 +94,10 @@
 			@foreach ($jogadors as $jogador)
 				<tr>
 					<td>{{ $jogador->nomeJogador }}</td>
-					<td>{{ $jogador->dataNascimento }}</td>
-					<td>{{ $jogador->clube }}</td>
+					 <td>{{ date( 'd/m/Y' , strtotime($jogador->dataNascimento))}}</td>
+					<td>
+						<img src="{{ asset($jogador->clube); }}" maxwidth="50" height="50">
+					</td>
 					<td>{{ $jogador->posicao }}</td>
 					<td>
 						<a href="/jogador/{{ $jogador->id }}/edit" class="btn btn-warning">

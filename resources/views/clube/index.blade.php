@@ -13,11 +13,11 @@
 
 		<div class="form-group col-6">
 			<label for="nomeClube">Nome Clube: </label>
-			<input type="text" name="nomeClube" class="form-control" value="{{ $clube->nomeClube }}">
+			<input type="text" name="nomeClube" class="form-control" value="{{ $clube->nomeClube }}" required>
 		</div>
 		<div class="form-group col-3">
 			<label for="url">Escudo Clube: </label>
-			<input type="file" name="url" id="url" class="form-control" value="{{ $clube->url }}">
+			<input type="file" name="url" id="url" class="form-control" value="{{ $clube->url }}" required>
 		</div>
 		<div class="form-group col-3">
 			<a href="/clube" class="btn btn-primary bottom">
